@@ -9,7 +9,7 @@ def home(request):
     context = {
         'produtos': produtos
     }
-    return render(request, 'core/home.html')
+    return render(request, 'core/home.html', context)
 
 
 def loja(request):
