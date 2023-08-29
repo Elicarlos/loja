@@ -214,9 +214,10 @@
                     </div>
                 </div>
             </div>
+            {% for produto in produtos %}
             <div class="col-lg-3 col-md-4 col-sm-6 mix men">
                 <div class="product__item">
-                    <div class="product__item__pic set-bg" data-setbg="{% static 'img/product/product-2.jpg' %}">
+                    <div class="product__item__pic set-bg" data-setbg="{{ produto.imagem_principal.url }}">
                         <ul class="product__hover">
                             <li><a href="{% static 'img/product/product-2.jpg' %}" class="image-popup"><span class="arrow_expand"></span></a></li>
                             <li><a href="#"><span class="icon_heart_alt"></span></a></li>
@@ -224,7 +225,7 @@
                         </ul>
                     </div>
                     <div class="product__item__text">
-                        <h6><a href="#">Flowy striped skirt</a></h6>
+                        <h6><a href="#">{{ produto.nome }}</a></h6>
                         <div class="rating">
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
@@ -232,10 +233,11 @@
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
                         </div>
-                        <div class="product__price">$ 49.0</div>
+                        <div class="product__price">$ {{ produto.preco }}</div>
                     </div>
                 </div>
             </div>
+            {% endfor %}
             <div class="col-lg-3 col-md-4 col-sm-6 mix accessories">
                 <div class="product__item">
                     <div class="product__item__pic set-bg" data-setbg="{% static 'img/product/product-3.jpg' %}">
