@@ -1,7 +1,11 @@
-from datetime import timedelta, timezone
+from datetime import datetime, timedelta
+from autoslug import AutoSlugField
 from django.db import models
-from django.forms import ValidationError
+from django.core.exceptions import ValidationError
+from django.utils import timezone 
 from django.utils.text import slugify
+
+
 
 
 class Tamanho(models.Model):
@@ -18,12 +22,17 @@ class Cor(models.Model):
     
 class Categoria(models.Model):
     nome = models.CharField(max_length=100)
+    slug = AutoSlugField(populate_from='nome', unique=True)
+
+    def __str__(self):
+        return self.nome
 
     def __str__(self):
         return self.nome
 
 class Subcategoria(models.Model):
     nome = models.CharField(max_length=100)
+    slug = AutoSlugField(populate_from='nome', unique=True)
 
     def __str__(self):
         return self.nome
@@ -32,8 +41,8 @@ class Subcategoria(models.Model):
 class Produto(models.Model):
     nome = models.CharField(max_length=200)
     descricao = models.TextField()
-    categoria_principal = models.ForeignKey(Categoria, on_delete=models.SET_NULL, null=True, blank=True)
-    subcategoria = models.ForeignKey(Subcategoria, on_delete=models.SET_NULL, null=True, blank=True)
+    categoria_principal = models.ForeignKey(Categoria, on_delete=models.SET_NULL, null=True, blank=True, related_name='produtos')
+    subcategoria = models.ForeignKey(Subcategoria, on_delete=models.SET_NULL, null=True, blank=True, related_name='produtos')
     preco = models.DecimalField(max_digits=10, decimal_places=2)
     quantidade_estoque = models.PositiveIntegerField(default=0)
     marca = models.CharField(max_length=100)
@@ -50,7 +59,7 @@ class Produto(models.Model):
     imagem_adicional_4 = models.ImageField(upload_to='produto_imagens', blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    slug = models.SlugField(unique=True, max_length=255, editable=False)
+    slug = AutoSlugField(populate_from='nome', unique=True)
 
     def __str__(self):
         return self.nome
@@ -64,14 +73,18 @@ class Produto(models.Model):
         # if not self.imagens_adicionais.exists():
         #     raise ValidationError("É necessário fornecer pelo menos uma imagem adicional.")
 
+    
     def is_new(self):
         now = timezone.now()
-        return (now - self.created_at <= timedelta(days=7)) and (now - self.updated_at <= timedelta(days=7))
+        
+        
+        created_at_local = self.created_at.astimezone(timezone.get_current_timezone())
+        updated_at_local = self.updated_at.astimezone(timezone.get_current_timezone())
+        
+        return (now - created_at_local <= timedelta(days=7)) and (now - updated_at_local <= timedelta(days=7))
+
     
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.nome)
-        super().save(*args, **kwargs)
+  
 
 class Promocao(models.Model):
     nome = models.CharField(max_length=100)

@@ -181,47 +181,77 @@
             </div>
             <div class="col-lg-8 col-md-8">
                 <ul class="filter__controls">
-                    <li class="active" data-filter="*">All</li>
+                    {% comment %} <li class="active" data-filter="*">All</li>
                     <li data-filter=".women">Women’s</li>
                     <li data-filter=".men">Men’s</li>
                     <li data-filter=".kid">Kid’s</li>
                     <li data-filter=".accessories">Accessories</li>
-                    <li data-filter=".cosmetic">Cosmetics</li>
+                    <li data-filter=".cosmetic">Cosmetics</li> {% endcomment %}
+                    <li class="active" data-filter="*">All</li>
+                    {% for categoria in categoria %}
+                        <li data-filter=".{{ categoria.slug }}">{{ categoria.nome }}</li>
+                    {% endfor %}
                 </ul>
             </div>
         </div>
         <div class="row property__gallery">
-            
-            <div class="col-lg-3 col-md-4 col-sm-6 mix women">
-                {% for produto in produtos %}
-                <div class="product__item">
-                    <div class="product__item__pic set-bg" data-setbg="{{ produto.imagem_principal.url }}">
-                        <div class="label new">New</div>
-                        <ul class="product__hover">
-                            <li><a href="{{ produto.imagem_principal.url }}" class="image-popup"><span class="arrow_expand"></span></a></li>
-                            <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                            <li><a href="#"><span class="icon_bag_alt"></span></a></li>
-                        </ul>
-                    </div>
-                    <div class="product__item__text">
-                        <h6><a href="#">{{ produto.nome }}</a></h6>
-                        <div class="rating">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
+            {% for categoria in categoria %}
+            {% for produto in categoria.produtos.all %}
+            <div class="col-lg-3 col-md-4 col-sm-6 mix {{ categoria.slug }}">
+                
+                    {% if produto.is_new  %}
+                    <div class="product__item">
+                        <div class="product__item__pic set-bg" data-setbg="{{ produto.imagem_principal.url }}">
+                            <div class="label new">New</div>
+                            <ul class="product__hover">
+                                <li><a href="{{ produto.imagem_principal.url }}" class="image-popup"><span class="arrow_expand"></span></a></li>
+                                <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+                                <li><a href="#"><span class="icon_bag_alt"></span></a></li>
+                            </ul>
                         </div>
-                        <div class="product__price">$ {{ produto.preco }}</div>
+                        <div class="product__item__text">
+                            <h6><a href="#"></a></h6>
+                            <div class="rating">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                            </div>
+                            <div class="product__price">R$ {{ produto.preco }}</div>
+                        </div>
                     </div>
-                </div>
-                {% endfor %}
+                    
+                    
+                    {% else %}
+                    <div class="product__item">
+                        <div class="product__item__pic set-bg" data-setbg="{{ produto.imagem_principal.url }}">
+                            {% comment %} <div class="label new">New</div> {% endcomment %}
+                            <ul class="product__hover">
+                                <li><a href="{{ produto.imagem_principal.url }}" class="image-popup"><span class="arrow_expand"></span></a></li>
+                                <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+                                <li><a href="#"><span class="icon_bag_alt"></span></a></li>
+                            </ul>
+                        </div>
+                        <div class="product__item__text">
+                            <h6><a href="#"></a></h6>
+                            <div class="rating">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                            </div>
+                            <div class="product__price">R$ {{ produto.preco }}</div>
+                        </div>
+                    </div>
+                    {% endif %}
             </div>
             
             
-            <div class="col-lg-3 col-md-4 col-sm-6 mix men">
+            {% comment %} <div class="col-lg-3 col-md-4 col-sm-6 mix men">
                 <div class="product__item">
-                    <div class="product__item__pic set-bg" data-setbg="">
+                    <div class="product__item__pic set-bg" data-setbg="{% static 'img/categories/category-5.jpg' %}">
                         <ul class="product__hover">
                             <li><a href="{% static 'img/product/product-2.jpg' %}" class="image-popup"><span class="arrow_expand"></span></a></li>
                             <li><a href="#"><span class="icon_heart_alt"></span></a></li>
@@ -237,7 +267,7 @@
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
                         </div>
-                        <div class="product__price">$</div>
+                        <div class="product__price">$ 300</div>
                     </div>
                 </div>
             </div>
@@ -376,7 +406,9 @@
                         <div class="product__price">$ 49.0 <span>$ 59.0</span></div>
                     </div>
                 </div>
-            </div>
+            </div> {% endcomment %}
+            {% endfor %}
+            {% endfor %}
         </div>
     </div>
 </section>
