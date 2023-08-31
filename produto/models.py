@@ -67,6 +67,21 @@ class Produto(models.Model):
     def produtos_relacionados(self):
         return Produto.objects.filter(categoria_principal=self.categoria_principal).exclude(id=self.id)[:4]
     
+    def is_hot_trend(self):
+        return self.itemespecial_set.filter(motivo='Tendencias', data_inicio__lte=timezone.now(), data_fim__gte=timezone.now()).exists()
+
+    def is_best_seller(self):
+        return self.itemespecial_set.filter(motivo='Mais Vendidos', data_inicio__lte=timezone.now(), data_fim__gte=timezone.now()).exists()
+
+    def is_feature(self):
+        return self.itemespecial_set.filter(motivo='Destaque', data_inicio__lte=timezone.now(), data_fim__gte=timezone.now()).exists()
+
+
+    def set_best_seller(self):
+        # Coloque aqui a lógica para determinar se um produto é um best seller.
+        # Se atender aos critérios, você pode definir self.is_best_seller como Tru
+        pass
+    
     def clean(self):
         if not self.imagem_principal:
             raise ValidationError("É necessário fornecer uma imagem principal.")
@@ -84,7 +99,15 @@ class Produto(models.Model):
         return (now - created_at_local <= timedelta(days=7)) and (now - updated_at_local <= timedelta(days=7))
 
     
-  
+class ItemEspecial(models.Model):
+    produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
+    motivo = models.CharField(max_length=50)  # Por exemplo: "BEST SELLER", "HOT TREND", "FEATURE"
+    data_inicio = models.DateField()
+    data_fim = models.DateField()
+
+    def __str__(self):
+        return f"{self.produto} - {self.motivo}"
+
 
 class Promocao(models.Model):
     nome = models.CharField(max_length=100)
