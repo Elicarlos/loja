@@ -176,7 +176,7 @@
         <div class="row">
             <div class="col-lg-4 col-md-4">
                 <div class="section-title">
-                    <h4>New product</h4>
+                    <h4>Novos Produtos</h4>
                 </div>
             </div>
             <div class="col-lg-8 col-md-8">
@@ -198,6 +198,7 @@
             {% for categoria in categoria %}
             {% for produto in categoria.produtos.all %}
             <div class="col-lg-3 col-md-4 col-sm-6 mix {{ categoria.slug }}">
+        
                 
                     {% if produto.is_new  %}
                     <div class="product__item">
@@ -210,7 +211,7 @@
                             </ul>
                         </div>
                         <div class="product__item__text">
-                            <h6><a href="#"></a></h6>
+                            <h6><a href="#">{{ produto.nome }}</a></h6>
                             <div class="rating">
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
@@ -709,7 +710,7 @@
                 <div class="instagram__item set-bg" data-setbg="{% static 'img/instagram/insta-1.jpg' %}">
                     <div class="instagram__text">
                         <i class="fa fa-instagram"></i>
-                        <a href="#">@ ashion_shop</a>
+                        <a href="#">@FluenceStore</a>
                     </div>
                 </div>
             </div>
@@ -717,7 +718,7 @@
                 <div class="instagram__item set-bg" data-setbg="{% static 'img/instagram/insta-2.jpg' %}">
                     <div class="instagram__text">
                         <i class="fa fa-instagram"></i>
-                        <a href="#">@ ashion_shop</a>
+                        <a href="#">@FluenceStore</a>
                     </div>
                 </div>
             </div>
@@ -725,7 +726,7 @@
                 <div class="instagram__item set-bg" data-setbg="{% static 'img/instagram/insta-3.jpg' %}">
                     <div class="instagram__text">
                         <i class="fa fa-instagram"></i>
-                        <a href="#">@ ashion_shop</a>
+                        <a href="#">@FluenceStore</a>
                     </div>
                 </div>
             </div>
@@ -733,7 +734,7 @@
                 <div class="instagram__item set-bg" data-setbg="{% static 'img/instagram/insta-4.jpg' %}">
                     <div class="instagram__text">
                         <i class="fa fa-instagram"></i>
-                        <a href="#">@ ashion_shop</a>
+                        <a href="#">@FluenceStore</a>
                     </div>
                 </div>
             </div>
@@ -741,7 +742,7 @@
                 <div class="instagram__item set-bg" data-setbg="{% static 'img/instagram/insta-5.jpg' %}">
                     <div class="instagram__text">
                         <i class="fa fa-instagram"></i>
-                        <a href="#">@ ashion_shop</a>
+                        <a href="#">@FluenceStore</a>
                     </div>
                 </div>
             </div>
@@ -749,7 +750,7 @@
                 <div class="instagram__item set-bg" data-setbg="{% static 'img/instagram/insta-6.jpg' %}">
                     <div class="instagram__text">
                         <i class="fa fa-instagram"></i>
-                        <a href="#">@ ashion_shop</a>
+                        <a href="{{ instagram.url }}">@{{ intaggra}}</a>
                     </div>
                 </div>
             </div>
